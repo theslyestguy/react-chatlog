@@ -1,22 +1,41 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './ChatEntry.css';
 import PropTypes from 'prop-types';
 
 const ChatEntry = (props) => {
+  const msgDate = new Date(props.timeStamp).getFullYear();
+  const today = new Date().getFullYear();
+  const [likedState, setLiked] = useState(props.liked);
+  const likedIcon = likedState ? '❤️' : '🤍';
+
+  const toggleLiked = () => {
+    setLiked(!likedState);
+    const likedEvt = new CustomEvent('onLikeToggle', { detail: {liked: !likedState} });
+    document.dispatchEvent(likedEvt);
+  };
+
+  const localSender = 'Estragon';
+  const senderLocalOrRemote = props.sender === localSender ? 'local' : 'remote';
+
+
   return (
-    <div className="chat-entry local">
-      <h2 className="entry-name">Replace with name of sender</h2>
+    <div className={`chat-entry ${senderLocalOrRemote}`} key="{props.id}">
+      <h2 className="entry-name">{props.sender}</h2>
       <section className="entry-bubble">
-        <p>Replace with body of ChatEntry</p>
-        <p className="entry-time">Replace with TimeStamp component</p>
-        <button className="like">🤍</button>
+        <p>{props.body}</p>
+        <p className="entry-time">{today - msgDate} years ago</p>
+        <button className="like" onClick={toggleLiked}>{likedIcon}</button>
       </section>
     </div>
   );
 };
 
 ChatEntry.propTypes = {
-  //Fill with correct proptypes
+  id: PropTypes.number,
+  sender: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+  timestamp: PropTypes.string,
+  liked: PropTypes.bool,
 };
 
 export default ChatEntry;

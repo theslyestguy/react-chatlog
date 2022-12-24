@@ -1,16 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import chatMessages from './data/messages.json';
+import ChatLog from './components/ChatLog';
 
 const App = () => {
+  const [likedCount, setLikedCount] = useState(0);
+
+  document.addEventListener('onLikeToggle', (evt) => {
+    evt.stopPropagation();
+    evt.detail.liked ? setLikedCount(likedCount + 1) : setLikedCount(likedCount - 1);
+  });
+
   return (
     <div id="App">
       <header>
-        <h1>Application title</h1>
+        <h1>Chitter Chatter</h1>
+        <h2>{likedCount} ❤️s</h2>
       </header>
       <main>
-        {/* Wave 01: Render one ChatEntry component
-        Wave 02: Render ChatLog component */}
+        <ChatLog entries={chatMessages}/>
       </main>
     </div>
   );
