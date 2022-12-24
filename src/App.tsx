@@ -6,10 +6,10 @@ import ChatLog from './components/ChatLog';
 const App = () => {
   const [likedCount, setLikedCount] = useState(0);
 
-  document.addEventListener('onLikeToggle', (evt) => {
+  document.addEventListener('onLikeToggle', ((evt: CustomEvent) => {
     evt.stopPropagation();
     evt.detail.liked ? setLikedCount(likedCount + 1) : setLikedCount(likedCount - 1);
-  });
+  }) as EventListener);
 
   return (
     <div id="App">

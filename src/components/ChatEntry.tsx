@@ -1,8 +1,15 @@
 import React, {useState} from 'react';
 import './ChatEntry.css';
-import PropTypes from 'prop-types';
 
-const ChatEntry = (props) => {
+export type Props = {
+  id: number,
+  sender: string,
+  body: string,
+  timeStamp: string,
+  liked: boolean,
+};
+
+const ChatEntry = (props: Props) => {
   const msgDate = new Date(props.timeStamp).getFullYear();
   const today = new Date().getFullYear();
   const [likedState, setLiked] = useState(props.liked);
@@ -19,7 +26,7 @@ const ChatEntry = (props) => {
 
 
   return (
-    <div className={`chat-entry ${senderLocalOrRemote}`} key="{props.id}">
+    <div className={`chat-entry ${senderLocalOrRemote}`}>
       <h2 className="entry-name">{props.sender}</h2>
       <section className="entry-bubble">
         <p>{props.body}</p>
@@ -28,14 +35,6 @@ const ChatEntry = (props) => {
       </section>
     </div>
   );
-};
-
-ChatEntry.propTypes = {
-  id: PropTypes.number,
-  sender: PropTypes.string.isRequired,
-  body: PropTypes.string.isRequired,
-  timestamp: PropTypes.string,
-  liked: PropTypes.bool,
 };
 
 export default ChatEntry;
